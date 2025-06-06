@@ -1,0 +1,57 @@
+# LLM Interaction Log
+
+This file serves as a running log for interactions with the LLM, noting observations, recurring issues, successful prompt patterns, and any specific behaviors that need to be reinforced or avoided.
+
+## Example Entries:
+[2025-06-05 23:30] - LLM consistently forgets to update TASK.md. Need to reinforce this in global rules.
+[2025-06-06 10:00] - Good output on generating a basic TeacherDashboard component when provided with a clear list of required sections.
+[2025-06-06 14:15] - Had to re-iterate the 500-line limit for the `useSupabase` hook. It initially tried to put too much logic in one file.
+
+## Bolt IDE Prompting Best Practices:
+
+1. Always read .ai/plan.md at the start of any conversation to understand the project's high-level vision, architecture, goals, and constraints. This is paramount for maintaining context and consistency.
+
+2. **CRITICAL**: Check .ai/task.md for the current sprint focus and active tasks. This is your primary roadmap for what to work on next. Update task.md after completing any work:
+   - Mark completed tasks with [x] and move to ✅ Completed section with date
+   - Update progress on active tasks
+   - Add new discoveries to 📝 Discovered During Work section
+   - Move tasks between sections as appropriate (READY → ACTIVE → COMPLETED)
+
+3. Check .ai/doing/ for individual task files (legacy system). If creating new tasks, prefer updating task.md over creating individual files unless the task is complex and needs detailed sub-task tracking.
+
+4. Refer to the .ai/guides/ directory for detailed coding standards. Specifically, consult code_structure.md for modularity, database_guidelines.md for Supabase interactions, ai_agent_guidelines.md for LangChain.js and OpenRouter, and quality_assurance.md for error handling and typing.
+
+5. Enforce the 500-line file limit rigorously. If any file approaches this limit, immediately refactor it by splitting into smaller components, hooks, or utility files as per code_structure.md.
+
+6. Use TypeScript with strong typing in all files. Define all custom types and interfaces in /src/types/ as per code_structure.md. Avoid any types.
+
+7. Create custom hooks in /src/hooks/ for all API calls and complex state logic. Follow the use naming convention.
+
+8. Implement Supabase RLS policies for strict role-based access (Teacher/Student/Parent) on all relevant tables. Ensure parent access is limited only to their own children's data.
+
+9. Utilize Supabase pgvector for all curriculum documentation storage and Retrieval-Augmented Generation (RAG). Ensure efficient vector store management.
+
+10. Prioritize a mobile-first responsive design using Tailwind CSS. Do not use custom CSS unless absolutely necessary and justified. Ensure WCAG 2.1 AA accessibility compliance.
+
+11. Implement real-time updates using Supabase subscriptions for notifications, assignments, and grades. Where applicable, use optimistic updates for better UX.
+
+12. When implementing AI agents, adhere to the ai_agent_guidelines.md. Ensure proper OpenRouter integration, RAG implementation, and multi-agent workflows.
+
+13. **TASK MANAGEMENT PROTOCOL**: After completing any development work:
+    - Update .ai/task.md immediately with progress
+    - Mark completed items with [x] and add completion date
+    - Move active tasks to appropriate sections (ACTIVE → COMPLETED)
+    - Add any new findings to "Discovered During Work" section
+    - Update project status and sprint focus if phase completion reached
+
+14. Always be specific in your requests. Provide as much context as possible. Examples of desired output or similar implementations are highly beneficial.
+
+15. Do not assume missing context; ask clarifying questions if uncertain. Never hallucinate libraries or functions. Only use known and verified packages and APIs.
+
+16. Never delete or overwrite existing code unless explicitly instructed or if it's part of a task from .ai/task.md or .ai/doing/.
+
+17. **SPRINT AWARENESS**: Always check the current sprint in task.md and focus on those priorities. Don't jump ahead to future sprint tasks unless current sprint is blocked.
+
+18. **PROGRESS REPORTING**: When providing status updates, reference specific task.md sections and show progress with checkbox updates.
+
+19. Remember to restart conversations once they become long or the quality of responses degrades. This helps maintain model performance. 
